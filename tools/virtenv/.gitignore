@@ -1,0 +1,8 @@
+# Ignore tox dirs
+.tox-dev/
+.tox-tests/
+
+# Ignore python virtual environment directory
+py27dev/
+py36dev/
+py37dev/
