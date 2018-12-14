@@ -1,6 +1,7 @@
 import SCons.Script
 from SCons.Environment import Environment
 import os
+import sys
 import wget
 import zipfile
 import platform
@@ -22,7 +23,6 @@ ESP8266_SDK = "https://github.com/pfalcon/esp-open-sdk.git"
 ARM_TOOLCHAIN_WIN32 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-win32.zip"
 ARM_TOOLCHAIN_LINUX64 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2"
 
-Default(None)
 showhelp = True
 Help("\nPlease select one of the following options.\n\n")
 
@@ -32,13 +32,19 @@ def nohelpmsg():
     showhelp = False
 
 
-def setupopts_venv():
+def opts_venv():
+    """Setup Python Vitual Environments"""
     AddOption('--setup-venvs', dest='setup-venvs', action='store_true', default=False)
     Help("--setup-venvs\t\t\t")
     Help("Setup python virtual environments\n\n")
 
+    if GetOption('setup-venvs'):
+        nohelpmsg()
+        env.Execute('tox -c tools/virtenv/tox_dev.ini')
 
-def setupopts_esp32():
+
+def opts_esp32():
+    """Download the ESP32 IDF API Libs / toolchain"""
     AddOption('--download-esp32-all', dest='download-esp32-all', action='store_true', default=False)
     Help("--download-esp32-all\t\t")
     Help("Download all related files needed for the ESP32\n")
@@ -48,35 +54,15 @@ def setupopts_esp32():
     AddOption('--download-esp32-toolchain', dest='download-esp32-toolchain', action='store_true', default=False)
     Help("--download-esp32-toolchain\t")
     Help("Download the pre-built toolchain for the ESP32\n\n")
-
-
-def setupopts_esp8266():
-    AddOption('--download-esp8266', dest='download-esp8266', action='store_true', default=False)
-    Help("--download-esp8266\t\t")
-    Help("Download the sdk files for the esp8266\n")
-    AddOption('--build-esp8266', dest='build-esp8266', action='store_true', default=False)
-    Help("--build-esp8266\t\t\t")
-    Help("Build the sdk files for the esp8266\n\n")
-
-
-def setupopts_arm():
-    AddOption('--download-arm', dest='download-arm', action='store_true', default=False)
-    Help("--download-arm\t\t\t")
-    Help("Download the precompiled ARM toolchain\n")
-
-
-def parseopts_venv():
-    """Setup Python Vitual Environments"""
-    if GetOption('setup-venvs'):
-        nohelpmsg()
-        env.Execute('tox -c tools/virtenv/tox_dev.ini')
-
-
-def parseopts_esp32():
-    """Download the ESP32 IDF API Libs / toolchain"""
+  
     if GetOption('download-esp32-all') or GetOption('download-esp32-idf'):
         nohelpmsg()
         print("Downloading ESP32-IDF")
+
+        if os.path.exists('lib/esp-idf'):
+            sys.stderr.write('lib/esp-idf directory already present, skipping the download\n')
+            return
+
         cmdopts = ['git clone ' + ESP32_IDF_URL]
         env.Execute(env.Action(cmdopts, chdir='lib'))
         cmdopts = ['git checkout ' + ESP32_IDF_Checkout]
@@ -87,10 +73,14 @@ def parseopts_esp32():
 
     if GetOption('download-esp32-all') or GetOption('download-esp32-toolchain'):
         nohelpmsg()
+        print("Downloading ESP32-Toolchain")
+
+        if os.path.exists('lib/xtensa-esp32-elf'):
+            sys.stderr.write('lib/xtensa-esp32-elf directory already present, skipping the download\n')
+            return
 
         if env['PLATFORM'] == "win32":
             print("Windows platform detected")
-            print("Downloading ESP32 Toolchain")
             wget.download(ESP32_TOOLCHAIN_WIN32, 'lib/esptoolchain.zip')
             print("\nDecompressing ESP32 Toolchain")
             zip_ref = zipfile.ZipFile('lib/esptoolchain.zip', 'r')
@@ -107,7 +97,6 @@ def parseopts_esp32():
             else:
                 downloadurl = ESP32_TOOLCHAIN_LINUX32
                 print("32bit Posix detected")
-            print("Downloading ESP32 Toolchain")
             wget.download(downloadurl, 'lib/esptoolchain.tar.gz')
             print("\nDecompressing ESP32 Toolchain")
             cmdopts = ['tar -xzf esptoolchain.tar.gz']
@@ -116,11 +105,23 @@ def parseopts_esp32():
         print("Finished ESP32 Toolchain")
 
 
-def parseopts_esp8266():
+def opts_esp8266():
     """Download / Build the ESP8266 SDK"""
+    AddOption('--download-esp8266', dest='download-esp8266', action='store_true', default=False)
+    Help("--download-esp8266\t\t")
+    Help("Download the sdk files for the esp8266\n")
+    AddOption('--build-esp8266', dest='build-esp8266', action='store_true', default=False)
+    Help("--build-esp8266\t\t\t")
+    Help("Build the sdk files for the esp8266\n\n")
+
     if GetOption('download-esp8266'):
         nohelpmsg()
         print("Downloading ESP8266-SDK")
+
+        if os.path.exists('lib/esp-open-sdk'):
+            sys.stderr.write('lib/esp-open-sdk directory already present, skipping the download\n')
+            return
+
         cmdopts = ['git clone ' + ESP8266_SDK]
         env.Execute(env.Action(cmdopts, chdir='lib'))
         cmdopts = ['git submodule update --init']
@@ -130,19 +131,31 @@ def parseopts_esp8266():
     if GetOption('build-esp8266'):
         nohelpmsg()
         print("Building ESP8266-SDK")
+
+        if not os.path.exists('lib/esp-open-sdk'):
+            sys.stderr.write('unable to find the lib/esp-open-sdk directory, unable to build\n')
+            return
+
         cmdopts = ['make']
         env.Execute(env.Action(cmdopts, chdir='lib/esp-open-sdk'))
         print("Finished Building ESP8266-SDK")
 
 
-def parseopts_arm():
+def opts_arm():
     """Download the ARM toolchain"""
+    AddOption('--download-arm', dest='download-arm', action='store_true', default=False)
+    Help("--download-arm\t\t\t")
+    Help("Download the precompiled ARM toolchain\n")
+
     if GetOption('download-arm'):
         nohelpmsg()
         print("Downloading ARM Toolchain")
 
         if not os.path.exists('lib/gcc-arm-toolchain'):
             os.makedirs('lib/gcc-arm-toolchain')
+        else:
+            sys.stderr.write('lib/gcc-arm-toolchain directory already present, skipping the download\n')
+            return
 
         if env['PLATFORM'] == "win32":
             print("Windows platform detected - using 32bit precompiled binaries\n")
@@ -162,16 +175,10 @@ def parseopts_arm():
 
         print("Finished ARM Toolchain")
 
-
-setupopts_venv()
-setupopts_esp32()
-setupopts_esp8266()
-setupopts_arm()
-
-parseopts_venv()
-parseopts_esp32()
-parseopts_esp8266()
-parseopts_arm()
+opts_venv()
+opts_esp32()
+opts_esp8266()
+opts_arm()
 
 if showhelp:
     SetOption("help", True)
