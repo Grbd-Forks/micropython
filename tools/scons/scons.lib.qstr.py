@@ -5,6 +5,32 @@ from os import path
 # Import the scons environment from the calling script
 Import('env')
 
+
+# Just to give a bit a bit of detail on typically how qstr works
+# https://forum.micropython.org/viewtopic.php?t=3211
+# QSTR is a mechanism for string interning. It basically lets you replace a string with a number.
+# it saves some flash size, saves memory, it speeds up comparisons
+
+#  * Read in source files from SRC_MOD, PY_CORE_SRCS, PY_EXTMOD_SRCS
+#    Parse them to a file ./build/genhdr/qstr.i.last
+
+#  * Take the file ./build/genhdr/qstr.i.last
+#    Parse it to the ./build/genhdr/qstr directory as a bunch of files
+
+#  * Take the files from the ./build/genhdr/qstr directory
+#    Parse them into ./build/genhdr/qstrdefs.collected.h
+
+#  * Read in ./build/genhdr/qstrdefs.collected.h, ${QSTR_DEFS}, ${TOP}/py/qstrdefs.h
+#    Parse into ./build/genhdr/qstrdefs.preprocessed.h
+
+#  * Read in ./build/genhdr/qstrdefs.preprocessed.h
+#    Parse to ./build/genhdr/qstrdefs.generated.h
+
+# When building the final micropython exe
+# qstrdefs.generated.h is used to reference system strings (not specific to the port)
+# Also qstrdefs.preprocessed.h is used by the mpy tool when generating mpy files
+# (python files precompiled down to bytecode)
+
 # Default options
 env.SetDefault(QSTR_AUTOGEN_DISABLE='0')
 
