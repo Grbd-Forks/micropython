@@ -43,18 +43,17 @@ def opts_venv():
         env.Execute('tox -c tools/virtenv/tox_dev.ini')
 
 
-def opts_esp32():
-    """Download the ESP32 IDF API Libs / toolchain"""
+def opts_esp32_idf():
+    """Download the ESP32 IDF API Libs"""
+
     AddOption('--download-esp32-all', dest='download-esp32-all', action='store_true', default=False)
     Help("--download-esp32-all\t\t")
     Help("Download all related files needed for the ESP32\n")
+
     AddOption('--download-esp32-idf', dest='download-esp32-idf', action='store_true', default=False)
     Help("--download-esp32-idf\t\t")
     Help("Download just the idf API framework for the ESP32\n")
-    AddOption('--download-esp32-toolchain', dest='download-esp32-toolchain', action='store_true', default=False)
-    Help("--download-esp32-toolchain\t")
-    Help("Download the pre-built toolchain for the ESP32\n\n")
-  
+
     if GetOption('download-esp32-all') or GetOption('download-esp32-idf'):
         nohelpmsg()
         print("Downloading ESP32-IDF")
@@ -71,6 +70,14 @@ def opts_esp32():
         env.Execute(env.Action(cmdopts, chdir='lib/esp-idf'))
         print("Finished ESP32 IDF")
 
+
+def opts_esp32_toolchain():
+    """Download the ESP32 Toolchain"""
+
+    AddOption('--download-esp32-toolchain', dest='download-esp32-toolchain', action='store_true', default=False)
+    Help("--download-esp32-toolchain\t")
+    Help("Download the pre-built toolchain for the ESP32\n\n")
+  
     if GetOption('download-esp32-all') or GetOption('download-esp32-toolchain'):
         nohelpmsg()
         print("Downloading ESP32-Toolchain")
@@ -176,7 +183,8 @@ def opts_arm():
         print("Finished ARM Toolchain")
 
 opts_venv()
-opts_esp32()
+opts_esp32_idf()
+opts_esp32_toolchain()
 opts_esp8266()
 opts_arm()
 

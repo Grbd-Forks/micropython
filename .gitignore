@@ -45,3 +45,6 @@ genrst/
 
 # Scons Files
 .sconsign.dblite
+
+# Python test cache
+.pytest_cache
