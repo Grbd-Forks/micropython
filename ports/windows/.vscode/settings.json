@@ -1,0 +1,44 @@
+{
+    // Use python within the virtual environment
+    "python.pythonPath": "${workspaceFolder}/../../tools/virtenv/py27dev/Scripts/python",
+    // Directory where the virtual environments are stored
+    "python.venvPath": "${workspaceFolder}/../../tools/virtenv",
+    // Additional autocompletion search directories
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/../../tools/virtenv/py27dev/Lib/site-packages/scons-3.0.1",
+        "${workspaceFolder}/../../"
+    ],
+
+    // Use pytest for testing
+    "python.unitTest.pyTestEnabled": false,
+    // Since we'e enabled coverage in the default settings for pytest
+    // disable it here for debugging tests
+    "python.unitTest.pyTestArgs": ["--no-cov"],
+
+    // Global enable linting
+    "python.linting.enabled": true,
+
+    // Pep8 linting
+    "python.linting.pep8Enabled": true,
+    "python.linting.pep8Path": "${workspaceFolder}/../../tools/virtenv/py27dev/Scripts/pycodestyle",
+    "python.linting.pep8Args": ["--ignore","E501,E265,E128,E251,E305"],
+
+    // pylint linting
+    "python.linting.pylintEnabled": false,
+    "python.linting.pylintPath": "${workspaceFolder}/../../tools/virtenv/py27dev/Scripts/pylint",
+    // Use a configuration file for pylint, we need to add in additional search directories
+    // using init_hook to find source outside of site_packages
+    "python.linting.pylintArgs": [
+        "--rcfile", "${workspaceFolder}/.vscode/pylint.cfg"
+    ],
+
+    // Ignore intermediary files
+    "files.exclude": {
+        "**/*.pyc": true,
+        "**/__pycache__": true,
+        "**/.sconsign.dblite": true,
+    },
+    "python.unitTest.promptToConfigure": false,
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+}

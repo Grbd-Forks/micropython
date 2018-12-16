@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "Root",
+			"path": ".."
+		},
+		{
+			"name": "Minimal Port"
+			"path": "minimal"
+		},
+		{
+			"name": "Windows Port"
+			"path": "windows"
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"magicstack.MagicPython",
+			"ms-python.python",
+			"wholroyd.jinja",
+			"VisualStudioExptTeam.vscodeintellicode",
+			"azaugg.vscode-python-docstring"
+		],
+		"unwantedRecommendations": []
+	}
+}
