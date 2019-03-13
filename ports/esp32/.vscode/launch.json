@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "SCons build - Minimal",
+            "name": "SCons build - ESP32",
             "type": "python",
             "request": "launch",
             //"cwd": "${fileDirname}",

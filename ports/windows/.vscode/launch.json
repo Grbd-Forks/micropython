@@ -5,20 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "SCons build - SConstruct",
+            "name": "SCons build - Windows",
             "type": "python",
             "request": "launch",
             //"cwd": "${fileDirname}",
             "cwd": "${workspaceFolder}",
             // we launch scons as a wrapper to launch the SConstruct file
-            "program": "${workspaceFolder}/../../tools/virtenv/py27dev/Scripts/scons.py",
+            "program": "${workspaceFolder}/../../tools/virtenv/py37dev/Scripts/scons",
             "env": {
                 // tell scons which set of engine / libs to use
-                "SCONS_LIB_DIR": "${workspaceFolder}/../../tools/virtenv/py27dev/Lib/site-packages/scons-3.0.1",
+                "SCONS_LIB_DIR": "${workspaceFolder}/../../tools/virtenv/py37dev/Lib/site-packages/scons",
                 // for development add in the root and scons engine directories
-                "PYTHONPATH" : "${workspaceFolder}../..;${workspaceFolder}/../../tools/virtenv/py27dev/Lib/site-packages/scons-3.0.1",
+                "PYTHONPATH" : "${workspaceFolder}../..;${workspaceFolder}/../../tools/virtenv/py37dev/Lib/site-packages/scons",
                 // make sure we use the virtual environment for exe's
-                "PATH" : "${workspaceFolder}/../../tools/virtenv/py27dev/Scripts;${env:PATH}"
+                "PATH" : "${workspaceFolder}/../../tools/virtenv/py37dev/Scripts;${env:PATH}"
             },
             "args": [""],
         },

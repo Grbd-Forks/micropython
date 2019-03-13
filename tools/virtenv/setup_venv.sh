@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]
 then
-      venv="py27dev"
+      venv="py37dev"
 else
       venv=$1
 fi

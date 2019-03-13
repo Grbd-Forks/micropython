@@ -11,17 +11,17 @@ env = Environment(ENV=os.environ)
 #env = Environment(ENV={'PATH': os.environ['PATH']})
 env.SetOption('silent', True)
 
-ESP32_IDF_Checkout = "30545f4cccec7460634b656d278782dd7151098e"
+ESP32_IDF_Checkout = "5c88c5996dbde6208e3bec05abc21ff6cd822d26"
 ESP32_IDF_URL = "https://github.com/espressif/esp-idf.git"
-ESP32_TOOLCHAIN_LINUX64 = "https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-73-ge28a011-5.2.0.tar.gz"
-ESP32_TOOLCHAIN_LINUX32 = "https://dl.espressif.com/dl/xtensa-esp32-elf-linux32-1.22.0-73-ge28a011-5.2.0.tar.gz"
-ESP32_TOOLCHAIN_WIN32 = "https://dl.espressif.com/dl/xtensa-esp32-elf-win32-1.22.0-73-ge28a011-5.2.0.zip"
+ESP32_TOOLCHAIN_LINUX64 = "https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2.0.tar.gz"
+ESP32_TOOLCHAIN_LINUX32 = "https://dl.espressif.com/dl/xtensa-esp32-elf-linux32-1.22.0-80-g6c4433a-5.2.0.tar.gz"
+ESP32_TOOLCHAIN_WIN32 = "https://dl.espressif.com/dl/xtensa-esp32-elf-win32-1.22.0-80-g6c4433a-5.2.0.zip"
 
 ESP8266_SDK = "https://github.com/pfalcon/esp-open-sdk.git"
 
 # https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
-ARM_TOOLCHAIN_WIN32 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-win32.zip"
-ARM_TOOLCHAIN_LINUX64 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2"
+ARM_TOOLCHAIN_WIN32 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-win32.zip"
+ARM_TOOLCHAIN_LINUX64 = "https://developer.arm.com/-/media/Files/downloads/gnu-rm/8-2018q4/gcc-arm-none-eabi-8-2018-q4-major-linux.tar.bz2"
 
 showhelp = True
 Help("\nPlease select one of the following options.\n\n")

@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "root",
+			"path": "."
+		},
+		{
+			"name": "port: minimal",
+			"path": "ports/minimal"
+		},
+		{
+			"name": "port: windows",
+			"path": "ports/windows"
+		},
+		{
+			"name": "port: esp32",
+			"path": "ports/esp32"
+		},
+	],
+	"settings": {}
+}
