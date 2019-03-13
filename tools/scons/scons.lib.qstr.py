@@ -86,3 +86,13 @@ env.Requires(tgt, ['mpconfigport.h', '${PY_SRC}/mpconfig.h'])
 
 # Generate qstrdefs.generated.h from qstrdefs.preprocessed.h
 tgt = env.MakeQStrData('${HEADER_BUILD}/qstrdefs.generated.h', '${HEADER_BUILD}/qstrdefs.preprocessed.h')
+
+
+# TODO
+
+# build a list of registered modules for py/objmodule.c.
+#$(HEADER_BUILD)/moduledefs.h: $(SRC_QSTR) $(QSTR_GLOBAL_DEPENDENCIES) | $(HEADER_BUILD)/mpversion.h
+#	@$(ECHO) "GEN $@"
+#	$(Q)$(PYTHON) $(PY_SRC)/makemoduledefs.py --vpath="., $(TOP), $(USER_C_MODULES)" $(SRC_QSTR) > $@
+
+#SRC_QSTR += $(HEADER_BUILD)/moduledefs.h

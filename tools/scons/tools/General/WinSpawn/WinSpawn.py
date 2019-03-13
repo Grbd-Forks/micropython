@@ -17,6 +17,7 @@ import subprocess
 import SCons.Script
 from SCons.Environment import Environment
 from SCons.Script import Builder
+from random import randint
 
 
 def exists(env):
@@ -40,6 +41,11 @@ def __winspawn(sh, escape, cmd, args, env):
     # So we don't need to implement 1>out etc just basic >, >>, < redirection
 
     args1 = args[1:]
+
+    # Used to get around the following error when launching python 3.7 as an executable
+    # b'Fatal Python error: _Py_HashRandomization_Init: failed to get random numbers to initialize Python\n\n'
+    if 'PYTHONHASHSEED' not in env:
+        env['PYTHONHASHSEED'] = str(randint(0, 4294967294))
 
     args1, stdout_file = __popredirect(args1, '>', 'wb')
     if not stdout_file:

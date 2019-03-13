@@ -179,7 +179,7 @@ env.Replace(PY_EXTMOD_SRCS=
     extmod/modussl_mbedtls
     extmod/modurandom
     extmod/moduselect
-    extmod/modwebsocket
+    extmod/moduwebsocket
     extmod/modwebrepl
     extmod/modframebuf
     extmod/vfs
@@ -227,8 +227,6 @@ if env['SCANDEPFILES']:
 # this is a convenience variable for ports that want core, extmod and frozen code
 env.Replace(PY_O=['${PY_CORE_O}', '${PY_EXTMOD_O}'])
 
-
-
 # TODO Optional load of mpconfigport.mk script
 
 # TODO
@@ -241,8 +239,8 @@ if env['PROG'] != "":
     # Depends:  ${OBJ}
 
     if "DEBUG" not in env:
-            print("TODO rules for DEBUG")
-            #TODO CONVERSION: statement type: <class 'make2scons.pymake.parserdata.Command'>
+        print("TODO rules for DEBUG")
+        #TODO CONVERSION: statement type: <class 'make2scons.pymake.parserdata.Command'>
     #TODO CONVERSION: statement type: <class 'make2scons.pymake.parserdata.Command'>
     # Rule:    "clean"
     # Depends: " clean-prog"

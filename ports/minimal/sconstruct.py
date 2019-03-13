@@ -12,7 +12,7 @@ tools = ['General', 'Micropython', 'gcc']
 env = Environment(tools=tools, toolpath=toolpaths)
 
 #env.Replace(ENV=os.environ)
-env.Replace(ENV={'PATH': os.environ['PATH']})
+env.Replace(ENV={'PATH': os.environ['PATH']}) # , 'PYTHONHASHSEED': '1234 test'
 # Needed for windows environments
 if sys.platform == 'win32':
     env.AppendUnique(ENV={'SystemDrive': os.environ['SystemDrive']})
